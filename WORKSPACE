@@ -10,9 +10,27 @@ http_archive(
     urls = ["https://github.com/bazelbuild/rules_docker/releases/download/v0.20.0/rules_docker-v0.20.0.tar.gz"],
 )
 
+
 load(
     "@io_bazel_rules_docker//repositories:repositories.bzl",
     container_repositories = "repositories",
+)
+
+http_archive(
+    name = "bazel_pkg_config",
+    strip_prefix = "bazel_pkg_config-master",
+    urls = ["https://github.com/cherrry/bazel_pkg_config/archive/master.zip"],
+)
+
+load("@bazel_pkg_config//:pkg_config.bzl", "pkg_config")
+
+pkg_config(
+    name = "modsecurity",
+    ignore_opts = [
+        "-lmodsecurity",
+        "-lpcre",
+    ],
+    min_version = "3.0.4"
 )
 
 container_repositories()
